@@ -1,0 +1,4 @@
+baseURL = 'http://example.org/'
+languageCode = 'en-us'
+title = 'Norman Foersters Blog'
+theme='hugo-coder-main'
