@@ -1,75 +1,43 @@
 <!DOCTYPE html>
-<html lang="{{ .Site.Language.Lang }}">
-{{ partial "head.html" . }}
+<html
+  itemscope
+  itemtype="http://schema.org/WebPage"
+  lang="{{ .Site.Language.Lang }}"
+  class="color-toggle-hidden"
+  {{ if default false .Site.Params.GeekblogDarkModeCode }}code-theme="dark"{{ end }}
+>
+  <head>
+    {{ partial "head/meta" . }}
+    <title>
+      {{- if eq .Kind "home" -}}
+        {{ .Site.Title }}
+      {{- else -}}
+        {{ printf "%s | %s" (partial "utils/title" .) .Site.Title }}
+      {{- end -}}
+    </title>
 
-{{ $csClass := "colorscheme-light" }}
-{{ if eq .Site.Params.colorScheme "dark" }}
-{{ $csClass = "colorscheme-dark" }}
-{{ else if eq .Site.Params.colorScheme "auto" }}
-{{ $csClass = "colorscheme-auto" }}
-{{ end }}
+    {{ partial "head/favicons" . }}
+    {{ partial "head/rel-me" . }}
+    {{ partial "head/microformats" . }}
+    {{ partial "head/others" . }}
+    {{ partial "head/custom" . }}
+  </head>
 
-<body class="preload-transitions {{ $csClass }}{{ if .Site.Params.rtl }} rtl{{ end }}">
-  {{ partial "float" . }}
-  <main class="wrapper">
-    {{ partial "header.html" . }}
+  <body>
+    {{ partial "svg-sprites" . }}
 
-    <div class="content">
-      {{ block "content" . }}{{ end }}
+
+    <div
+      class="wrapper {{ if default false .Site.Params.GeekblogDarkModeDim }}dark-mode-dim{{ end }}"
+    >
+      {{ partial "site-header" . }}
+
+
+      <main class="gblog-page container">
+        {{ template "main" . }}
+      </main>
+
+      {{ partial "site-footer" . }}
     </div>
-
-    {{ partial "footer.html" . }}
-  </main>
-
-  {{ if .Site.IsServer }}
-  {{ $script := resources.Get "js/coder.js" }}
-  <script src="{{ $script.RelPermalink }}"></script>
-  {{ else }}
-  {{ $script := resources.Get "js/coder.js" | minify | fingerprint }}
-  <script src="{{ $script.RelPermalink }}" integrity="{{ $script.Data.Integrity }}"></script>
-  {{ end }}
-
-  {{ range .Site.Params.customJS }}
-  {{ if $.Site.IsServer }}
-  {{ $script := resources.Get . }}
-  <script src="{{ $script.RelPermalink }}"></script>
-  {{ else }}
-  {{ $script := resources.Get . | minify | fingerprint }}
-  <script src="{{ $script.RelPermalink }}" integrity="{{ $script.Data.Integrity }}"></script>
-  {{ end }}
-  {{ end }}
-
-  {{ template "_internal/google_analytics.html" . }}
-
-  {{ if and .Site.Params.fathomAnalytics .Site.Params.fathomAnalytics.siteID }}
-  {{- partial "analytics/fathom" . -}}
-  {{ end }}
-
-  {{ if and .Site.Params.plausibleAnalytics .Site.Params.plausibleAnalytics.domain }}
-  {{- partial "analytics/plausible" . -}}
-  {{ end }}
-
-  {{ if and .Site.Params.goatCounter .Site.Params.goatCounter.code }}
-  {{- partial "analytics/goatcounter" . -}}
-  {{ end }}
-
-  {{ if and .Site.Params.cloudflare .Site.Params.cloudflare.token }}
-  {{- partial "analytics/cloudflare" . -}}
-  {{ end }}
-
-  {{ if and .Site.Params.matomo .Site.Params.matomo.serverURL }}
-  {{- partial "analytics/matomo" . -}}
-  {{ end }}
-
-  {{ if and .Site.Params.googleTagManager .Site.Params.googleTagManager.id }}
-  {{- partial "analytics/googletagmanager" . -}}
-  {{ end }}
-
-  {{ if and .Site.Params.applicationInsights .Site.Params.applicationInsights.connectionString }}
-    {{- partial "analytics/applicationinsights" . -}}
-  {{ end }}   
-
-  {{- partial "body/extensions" . -}}
-</body>
-
+  </body>
 </html>
