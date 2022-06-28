@@ -15,11 +15,11 @@ enableEmoji = true
 author = "Norman Foerster"
 description = "Devblog of Norman Foerster"
 keywords = "blog,developer,personal"
-info = ["Data Scientist", "Software Engineer"]
+info = ["Data Scientist", "Software Engineer", "Consultant"]
 avatarURL = "images/avatar.jpg"
 #gravatar = "john.doe@example.com"
-footerContent = "Enter a text here."
-dateFormat = "January 2, 2006"
+#footerContent = "Enter a text here."
+dateFormat = "2015-01-21"
 hideFooter = false
 hideCredits = false
 hideCopyright = false
@@ -147,11 +147,6 @@ url = "about/"
 name = "Blog"
 weight = 2
 url = "posts/"
-
-[[languages.en.menu.main]]
-name = "Projects"
-weight = 3
-url = "projects/"
 
 [[languages.en.menu.main]]
 name = "Contact me"
